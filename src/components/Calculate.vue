@@ -13,12 +13,17 @@
 
       <div class="mb-3 col">
         <label for="secondNumber" class="form-label">Second number</label>
-        <input type="number" name="secondNumber" class="form-control" />
+        <input
+          v-model="secondNumber"
+          type="number"
+          name="secondNumber"
+          class="form-control"
+        />
       </div>
 
       <div class="col">
         <button
-          @click="calculateNumbers()"
+          @click="calculateNumbers(firstNumber, secondNumber)"
           type="submit"
           class="btn btn-primary w-100 submit-button"
         >
@@ -30,6 +35,9 @@
     <div class="row">
       <div class="col">
         <p>First number: {{ firstNumber }}</p>
+      </div>
+      <div class="col">
+        <p>Second number is: {{ secondNumber }}</p>
       </div>
       <div class="col">
         <p>Result is: {{ addResult }}</p>
@@ -48,14 +56,16 @@ export default {
   },
   setup() {
     const firstNumber = ref(0);
-    const addResult = 0;
+    const secondNumber = ref(0);
+    let addResult = ref(0);
 
-    function calculateNumbers() {
-      console.log("firstNumber", firstNumber);
+    function calculateNumbers(a, b) {
+      addResult.value = a + b;
     }
 
     return {
       firstNumber,
+      secondNumber,
       addResult,
       calculateNumbers,
     };
