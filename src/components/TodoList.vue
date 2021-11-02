@@ -5,8 +5,12 @@
         <h2>{{ title }}</h2>
 
         <ul class="list-group mb-3">
-          <li v-for="todo in todos" :key="todo" class="list-group-item">
-            {{ todo }}
+          <li
+            v-for="todo in todosFromServer"
+            :key="todo"
+            class="list-group-item"
+          >
+            {{ todo.title }} {{ todo.status }}
           </li>
         </ul>
       </div>
@@ -31,6 +35,7 @@
 
 <script>
 import { ref } from "vue";
+import axios from "axios";
 
 export default {
   name: "TodoList",
@@ -41,6 +46,16 @@ export default {
     const todos = ref(["Read a book", "Go for a walk", "Eat food"]);
     const newTodo = ref("");
 
+    const todosFromServer = ref([]);
+
+    async function getTodos() {
+      const result = await axios.get("/api/get-todos");
+      todosFromServer.value = result.data;
+      console.log(result.data);
+    }
+
+    getTodos();
+
     function addNewTodo() {
       todos.value.push(newTodo.value);
       newTodo.value = "";
@@ -50,6 +65,7 @@ export default {
       todos,
       newTodo,
       addNewTodo,
+      todosFromServer,
     };
   },
 };
