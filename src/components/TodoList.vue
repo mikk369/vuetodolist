@@ -25,7 +25,7 @@
         />
       </div>
       <div class="col">
-        <button @click="addNewTodo" type="submit" class="btn btn-primary w-100">
+        <button @click="addTodo" type="submit" class="btn btn-primary w-100">
           Add new todo
         </button>
       </div>
@@ -54,6 +54,14 @@ export default {
       console.log(result.data);
     }
 
+    async function addTodo() {
+      await axios.post("/api/add-todo", {
+        title: newTodo.value,
+        status: "ACTIVE",
+      });
+      await getTodos();
+    }
+
     getTodos();
 
     function addNewTodo() {
@@ -66,6 +74,7 @@ export default {
       newTodo,
       addNewTodo,
       todosFromServer,
+      addTodo,
     };
   },
 };

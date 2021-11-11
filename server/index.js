@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const port = 4111;
 const routes = require("./router");
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
