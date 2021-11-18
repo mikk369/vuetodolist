@@ -9,6 +9,7 @@
             v-for="todo in todosFromServer"
             :key="todo"
             class="list-group-item"
+            @click="getTodo(todo._id)"
           >
             {{ todo.title }} {{ todo.status }}
           </li>
@@ -30,6 +31,7 @@
         </button>
       </div>
     </div>
+    {{ singleTodo }}
   </div>
 </template>
 
@@ -47,10 +49,17 @@ export default {
     const newTodo = ref("");
 
     const todosFromServer = ref([]);
+    const singleTodo = ref({});
 
     async function getTodos() {
       const result = await axios.get("/api/get-todos");
       todosFromServer.value = result.data;
+      console.log(result.data);
+    }
+
+    async function getTodo(id) {
+      const result = await axios.get("/api/get-todo/" + id);
+      singleTodo.value = result.data;
       console.log(result.data);
     }
 
@@ -59,6 +68,7 @@ export default {
         title: newTodo.value,
         status: "ACTIVE",
       });
+      newTodo.value = "";
       await getTodos();
     }
 
@@ -75,6 +85,8 @@ export default {
       addNewTodo,
       todosFromServer,
       addTodo,
+      singleTodo,
+      getTodo,
     };
   },
 };

@@ -1,19 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const exampleTodos = [
-  {
-    title: "Vii prügi välja",
-    status: "ACTIVE",
-  },
-  {
-    title: "Tee midagi",
-    status: "ACTIVE",
-  },
-  {
-    title: "Käi poes",
-    status: "COMPLETE",
-  },
-];
+const { Todos } = require("./dbConnection");
 
 router.get("/calc", function (req, res) {
   const a = 4;
@@ -23,13 +10,23 @@ router.get("/calc", function (req, res) {
 });
 
 // request === req ja response === res
-router.get("/get-todos", function (request, response) {
-  response.send(exampleTodos);
+router.get("/get-todos", async function (request, response) {
+  const result = await Todos.find();
+  console.log(result);
+  response.send(result);
 });
 
-router.post("/add-todo", function (request, response) {
-  console.log(request.body);
-  exampleTodos.push(request.body);
+router.get("/get-todo/:id", async function (request, response) {
+  const result = await Todos.findOne({ _id: request.params.id });
+  console.log(result);
+  response.send(result);
+});
+
+router.post("/add-todo", async function (request, response) {
+  if (request.body.title) {
+    await Todos.create(request.body);
+    console.log("Lisa todo");
+  }
   response.send("done");
 });
 
