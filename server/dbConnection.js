@@ -8,7 +8,7 @@ mongoose.connect(
 const Schema = mongoose.Schema;
 
 const TodoSchema = new Schema({
-  title: { type: String },
+  title: { type: String, minLength: 3, maxLength: 20 },
   status: { type: String },
 });
 
