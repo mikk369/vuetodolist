@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Users } = require("./dbConnection");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { SECRET } = require("./config");
 
 router.post("/register", async function (request, response) {
   try {
@@ -25,7 +27,10 @@ router.post("/login", async function (request, response) {
         user.password
       );
       if (isPasswordValid) {
-        response.send({ status: "All Good" });
+        const token = jwt.sign({ email: user.email }, SECRET, {
+          expiresIn: "1h",
+        });
+        response.send({ token: "Bearer " + token });
       } else {
         throw "Not valid";
       }

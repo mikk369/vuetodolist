@@ -64,7 +64,11 @@ export default {
     }
 
     async function getTodos() {
-      const result = await axios.get("/api/get-todos");
+      const result = await axios.get("/api/get-todos", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       todosFromServer.value = result.data;
       console.log(result.data);
     }

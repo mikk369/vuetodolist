@@ -39,6 +39,7 @@
 import { defineComponent } from "vue";
 import { ref } from "vue";
 import axios from "axios";
+import router from "./../router";
 
 export default defineComponent({
   setup() {
@@ -46,10 +47,14 @@ export default defineComponent({
     let password = ref("");
 
     async function login() {
-      await axios.post("/api/auth/login", {
+      const { data } = await axios.post("/api/auth/login", {
         email: email.value,
         password: password.value,
       });
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      router.push("/");
     }
 
     return {
