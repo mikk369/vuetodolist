@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { Todos } = require("./dbConnection");
+const authRoutes = require("./authenticate.router");
+
+router.use("/auth", authRoutes);
 
 router.get("/calc", function (req, res) {
   const a = 4;
