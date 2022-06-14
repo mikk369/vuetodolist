@@ -83,6 +83,7 @@ export default {
       await axios.post("/api/add-todo", {
         title: newTodo.value,
         status: "ACTIVE",
+        content: "Learn Backend",
       });
       newTodo.value = "";
       await getTodos();

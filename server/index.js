@@ -3,7 +3,7 @@ const app = express();
 const port = 4111;
 const routes = require("./router");
 const bodyParser = require("body-parser");
-const db = require("./dbConnection");
+// const db = require("./dbConnection");
 const expressJwt = require("express-jwt");
 const { SECRET } = require("./config");
 
